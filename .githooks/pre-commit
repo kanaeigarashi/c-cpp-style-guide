@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# 対象拡張子
+valid_extensions="c h"
+
+# 正規表現: 小文字英数字とアンダースコアのみ
+valid_name_regex="^[a-z0-9_]+$"
+
+# Gitでステージされたファイルを確認（追加・コピー・変更）
+git diff --cached --name-only --diff-filter=ACM | while read file; do
+    file_name=$(basename "$file")
+    extension="${file_name##*.}"
+    name_only="${file_name%.*}"
+    dir_path=$(dirname "$file")
+
+    # .c または .h だけを対象とする
+    if [[ " $valid_extensions " == *" $extension "* ]]; then
+
+        # ファイル名のチェック（拡張子除く）
+        if [[ ! "$name_only" =~ $valid_name_regex ]]; then
+            echo "Error: Invalid file name '$file_name'."
+            echo "Only lowercase letters, digits, and underscores are allowed before the extension."
+            exit 1
+        fi
+
+        # ディレクトリごとに名前を検査（階層すべて）
+        IFS='/' read -ra dirs <<< "$dir_path"
+        for dir in "${dirs[@]}"; do
+            if [[ "$dir" == "." || "$dir" == "" ]]; then
+                continue
+            fi
+            if [[ ! "$dir" =~ $valid_name_regex ]]; then
+                echo "Error: Invalid directory name '$dir' in path '$file'."
+                echo "Only lowercase letters, digits, and underscores are allowed in directory names."
+                exit 1
+            fi
+        done
+    fi
+done

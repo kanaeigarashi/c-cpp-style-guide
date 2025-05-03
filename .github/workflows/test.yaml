@@ -1,0 +1,30 @@
+name: Clang Format Test
+
+on:
+  pull_request:
+    paths:
+      - '**/*.c'
+      - '**/*.h'
+      - '.clang-format'
+
+jobs:
+  clang-format-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up clang-format
+        run: sudo apt-get install clang-format
+
+      - name: Prepare test files
+        run: |
+          # Create necessary directories for test
+          mkdir -p test/input test/expected test/tmp
+          # Copy your test files to the directories (you can adjust these as needed)
+          cp -R ./test/input/ ./test/input/
+          cp -R ./test/expected/ ./test/expected/
+
+      - name: Run clang-format test script
+        run: ./test/format_check.sh

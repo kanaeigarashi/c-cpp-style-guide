@@ -1,0 +1,45 @@
+---
+# インデントは1タブまたは4スペースとする。
+UseTab: ForIndentation        # インデントにはタブを使う（整形目的では使わない）
+IndentWidth: 4                # タブ幅相当のインデントは4スペース分
+TabWidth: 4                   # タブを使う場合の幅
+ContinuationIndentWidth: 4   # 継続行も同様に4スペース（または1タブ）
+
+# 一行の長さは80文字以内(最大でも100文字程度を目処とする)を目安とし，それ以上長くなる場合は途中で改行を入れる。計算式など明らかに長くなるものに関しては算術演算子を改行後の左側にくるように改行を入れる。
+ColumnLimit: 80
+PenaltyExcessCharacter: 1000000  # 極力ColumnLimitを守るよう強制
+BreakBeforeBinaryOperators: NonAssignment  # 算術演算子は改行後の左側に置く
+AllowShortFunctionsOnASingleLine: Empty  # 空関数以外は1行にしない
+AllowShortIfStatementsOnASingleLine: false  # if文も1行にしない
+AllowShortLoopsOnASingleLine: false
+
+# while，for，if，switchと，それに続く"("，”)”の中身にはスペースを入れる
+SpacesInConditionalStatement: true
+
+# ")"と"{"の間は改行を行い，”{”はwhile，for，if，switchと位置を合わせて同列に記述する
+# elseの前は行がつまらないように改行を入れる
+#BreakBeforeBraces: Allman
+
+# ","または，";"と次の分との間に，スペースを入れる
+# 2項演算子の指定
+SpacesInContainerLiterals: true
+
+
+# switch文のcase，defaultラベル位置
+
+# 配列の”[“，及び”]"の中身にはスペースを入れる。
+
+
+#空白を入れない場合
+#以下の場合には空白を入れない。
+#・関数呼び出し時に，関数名とそれに続く"("との間
+#・配列名とそれに続く"["との間
+#・スコープ解決演算子/ドット演算子/アロー演算子の前後
+#・ポインタと参照の定義は，型と"*"や"&"の間
+#・インクリメント，デクリメントと変数の間
+SpaceBeforeParens: false    # 関数呼び出し時の括弧前にスペースを入れない
+SpacesInBrackets: false    # 配列のインデックス前後にスペースを入れない
+SpaceBeforeOperator: false # 演算子前後にスペースを入れない
+
+# 変数・定数は型と名前，名前と初期値の間にインデントを入れて位置をそろえる。
+AlignConsecutiveDeclarations: true

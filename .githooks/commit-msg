@@ -1,0 +1,51 @@
+#!/bin/bash
+
+echo -e "\033[37;1m🪝 Running Git Hooks: commit-msg\033[0m"
+MSG="$(cat "$1")"
+readonly MSG
+code=0
+
+# Prefix一覧（連想配列：prefix => 説明）
+declare -A PREFIX_RULES=(
+  [feat]="新しい機能"
+  [fix]="バグの修正"
+  [docs]="ドキュメントのみの変更"
+  [style]="空白、フォーマット、セミコロン追加など"
+  [refactor]="仕様に影響がないコード改善（リファクタ）"
+  [perf]="パフォーマンス向上関連"
+  [test]="テスト関連"
+  [chore]="ビルド、補助ツール、ライブラリ関連"
+)
+
+# チェック用の正規表現を生成
+prefixes=""
+for prefix in "${!PREFIX_RULES[@]}"; do
+  prefixes+="${prefix}:[[:space:]]*|"
+done
+prefixes="${prefixes%|}"  # 最後の '|' を削除
+
+# Prefixの存在チェック（先頭にある必要がある）
+echo -en " - Prefixの存在チェック: "
+if ! echo "$MSG" | grep -Eq "^(${prefixes})"; then
+  echo -e "\033[31;22mNG"
+  echo -e "================================================================"
+  echo -e "コミットメッセージは次のPrefixのいずれかで始めてください："
+  for prefix in "${!PREFIX_RULES[@]}"; do
+    echo "  ${prefix}: ${PREFIX_RULES[$prgitefix]}"
+  done
+  echo -e "================================================================\033[0m\n"
+  code=1
+else
+  echo -e "\033[32;22mOK\033[0m"
+fi
+
+# 結果表示
+if [ ${code} -eq 0 ]; then
+  echo ""
+  echo -e "\033[32;1m✨ALL PASS!!\033[0m\n\n"
+else
+  echo ""
+  echo -e "\033[31;1mGit Hooks: commit-msg: NG\033[0m\n\n"
+fi
+
+exit ${code}
