@@ -1,0 +1,7 @@
+[
+    {
+        "command": "clang -Iinclude -Wall -Wextra -o ./test/input/test.o -c ./test/input/test.c",
+        "directory": "./test/input",
+        "file": "test/input/test.c"
+    }
+]
