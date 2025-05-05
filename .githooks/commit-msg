@@ -31,7 +31,7 @@ if ! echo "$MSG" | grep -Eq "^(${prefixes})"; then
   echo -e "================================================================"
   echo -e "コミットメッセージは次のPrefixのいずれかで始めてください："
   for prefix in "${!PREFIX_RULES[@]}"; do
-    echo "  ${prefix}: ${PREFIX_RULES[$prgitefix]}"
+    echo "  ${prefix}: ${PREFIX_RULES[$prefix]}"
   done
   echo -e "================================================================\033[0m\n"
   code=1
